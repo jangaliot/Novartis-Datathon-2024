@@ -9,6 +9,8 @@ This repository is going to be used to solve the NOVARTIS 2024 Datathon Challeng
 
 Amb diferents mètodes per escalar (max-min, box-cox, z-score...)
 
+**Per fer demà**: afegir la nostra mètrica als paràmetres del model.
+
 - MODEL XGBoost
   - Imputació k-nn
   - Imputació MICE
@@ -25,7 +27,6 @@ Amb diferents mètodes per escalar i dades sense escalar.
 - MODEL LGTBIQ+ ; Imputació k-nn ; sense escalar
 - MODEL LGTBIQ+ ; Sense imputació ; escalades standard
 
-**Per fer demà**: afegir la nostra mètrica als paràmetres del model.
 
 
 # Data Cleaning
