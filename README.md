@@ -1,6 +1,30 @@
 # novartis-datathon
 This repository is going to be used to solve the NOVARTIS 2024 Datathon Challenge
 
+# Possibles opcions
+- MODEL LGTBIQ+:
+  - Imputació k-nn
+  - Imputació MICE
+  - Imputació Random Forest
+Amb diferents mètodes per escalar (max-min, box-cox, z-score...)
+
+- MODEL XGBoost
+  - Imputació k-nn
+  - Imputació MICE
+  - Imputació Random Forest
+Amb diferents mètodes per escalar i dades sense escalar.
+
+# Millor model de moment
+- MODEL LGTBIQ+:
+  - Imputació k-nn
+    - dades escalades standard
+   
+# Models descartats
+- MODEL LGTBIQ+ ; Imputació k-nn ; sense escalar
+- MODEL LGTBIQ+ ; Sense imputació ; escalades standard
+
+**Per fer demà**: afegir la nostra mètrica als paràmetres del model.
+
 
 # Data Cleaning
 
