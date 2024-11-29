@@ -6,12 +6,14 @@ This repository is going to be used to solve the NOVARTIS 2024 Datathon Challeng
   - Imputació k-nn
   - Imputació MICE
   - Imputació Random Forest
+
 Amb diferents mètodes per escalar (max-min, box-cox, z-score...)
 
 - MODEL XGBoost
   - Imputació k-nn
   - Imputació MICE
   - Imputació Random Forest
+
 Amb diferents mètodes per escalar i dades sense escalar.
 
 # Millor model de moment
