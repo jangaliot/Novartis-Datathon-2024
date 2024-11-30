@@ -41,6 +41,13 @@ Convertim a format data el necessari
 - Escalant variables numèriques (menys target)
 - Sense escalar
 
+
+# Mètriques
+
+LightGBM ; imputació K-nn ; escalades
+- boosting_type: gbdt --> 0.1628
+- boosting_type: dart --> 
+
 Imputem els valors faltants amb KNN
 
 
