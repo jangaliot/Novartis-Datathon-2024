@@ -41,14 +41,30 @@ Convertim a format data el necessari
 - Escalant variables numèriques (menys target)
 - Sense escalar
 
+Imputem els valors faltants amb KNN
+
 
 # Mètriques
 
 LightGBM ; imputació K-nn ; escalades
-- boosting_type: gbdt --> 0.1628
-- boosting_type: dart --> 
 
-Imputem els valors faltants amb KNN
+boosting_type: gbdt
+  - learning_rate = 0.05 --> 0.1628
+  - learning_rate = 0.06 --> 0.1620
+
+learning_rate = 0.09 --> 0.1613
+  - num_leaves = 63 --> 0.1607
+  - num_leaves = 64 --> 0.1606
+
+num_leaves = 70 --> 0.1597
+  - lambda l1 = 0.5 ; lambda_l2 = 5 --> 0.1595
+  - lambda l1 = 1 ; lambda_l2 = 10 --> 0.1587 
+
+lambda l1 = 2 ; lambda_l2 = 20 --> 0.1581
+
+num_boost_round = 10.000 --> 0.1573
+
+
 
 
 
