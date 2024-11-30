@@ -62,6 +62,8 @@ num_leaves = 70 --> 0.1597
 
 lambda l1 = 2 ; lambda_l2 = 20 --> 0.1581
 
+num_boost_round = 10.000 --> 0.1573
+
 
 
 
