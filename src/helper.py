@@ -7,9 +7,10 @@ import pandas as pd
 from pathlib import Path
 from typing import Tuple
 import pickle
+import numpy as np
 import xgboost as xgb
 from sklearn.preprocessing import LabelEncoder
-
+import joblib
 
 def _CYME(df: pd.DataFrame) -> float:
     """ Compute the CYME metric, that is 1/2(median(yearly error) + median(monthly error))"""
@@ -57,8 +58,8 @@ def compute_metric(submission: pd.DataFrame) -> Tuple[float, float]:
 
 
 # Load model
-model_path = "../models/weights/model_imputeKnn_imputeKnn_scale_xgboost_hpt.pkl"
-model = pickle.load(open(model_path, "rb"))
+# model_path = "../models/weights/model_imputeKnn_imputeKnn_scale_xgboost_hpt.pkl"
+# model = pickle.load(open(model_path, "rb"))
 
 # Load data
 train_data = pd.read_csv("../data/processed/train_data_processed_imputeKnn_scale.csv")
@@ -70,7 +71,23 @@ print(train_data.head())
 
 # Identificar la variable objetivo y las características
 target_col = "target"
-features = [col for col in train_data.columns if col != target_col]
+features = [col for col in train_data.columns if (col != target_col and col != 'therapeutic_area')]
+
+# Lista de categorías
+categorias = [
+    'THER_AREA_980E', 'THER_AREA_96D7', 'THER_AREA_6CEE', 'THER_AREA_644A',
+    'THER_AREA_66C5', 'THER_AREA_CD59', 'THER_AREA_22ED', 'THER_AREA_645F',
+    'THER_AREA_8E53', 'THER_AREA_4BA5', 'THER_AREA_051D', 'THER_AREA_032C'
+]
+
+# Diccionario para almacenar los modelos cargados
+models_dict  = {}
+
+# Cargar cada modelo y almacenarlo en el diccionario
+for categoria in categorias:
+    modelo_nombre = f"../models/weights/xgb_model_{categoria}.joblib"
+    modelo_cargado = joblib.load(modelo_nombre)
+    models_dict[categoria] = modelo_cargado
 
 # Preprocesamiento: manejar valores categóricos y nulos
 # Convertir categorías a valores numéricos
@@ -87,8 +104,33 @@ validation = train_data.sample(frac=0.2, random_state=42)
 # Train your model
 features = train_data.columns.difference(["target", "cluster_nl"])
 
-# Perform predictions on validation set
-validation["prediction"] = model.predict(validation[features])
+# Lista para almacenar las predicciones
+submission_predictions = []
+list_the_areas = list(train_data_raw['therapeutic_area'])
+# Iterar sobre cada fila del dataset de submission
+for idx, row in validation.iterrows():
+    # Identificar el área terapéutica de la fila
+    therapeutic_area = list_the_areas[idx]
+    
+    # Seleccionar el modelo correspondiente
+    if therapeutic_area in models_dict:
+        model = models_dict[therapeutic_area]
+        
+        # Seleccionar las características relevantes para predicción
+        row_features = row[features].values.reshape(1, -1)  # Convertir en un array 2D
+        
+        # Realizar la predicción
+        prediction = model.predict(row_features)[0]  # Extraer el valor predicho
+    else:
+        # Asignar NaN si no hay modelo para el área terapéutica
+        prediction = np.nan
+        print(f"Advertencia: No se encontró modelo para el área terapéutica '{therapeutic_area}'. Se asigna NaN.")
+
+    # Almacenar la predicción
+    submission_predictions.append(prediction)
+
+# Agregar las predicciones como una nueva columna en el DataFrame de submission
+validation['prediction'] = submission_predictions
 
 # Assign column ["zero_actuals"] in the depending if in your
 # split the cluster_nl has already had actuals on train or not
