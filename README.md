@@ -2,7 +2,7 @@
 This repository is going to be used to solve the NOVARTIS 2024 Datathon Challenge
 
 ## Possibles opcions
-- MODEL LGTBIQ+:
+- MODEL:
   - Imputació k-nn
   - Imputació MICE
   - Imputació Random Forest
